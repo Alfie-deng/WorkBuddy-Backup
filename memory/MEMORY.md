@@ -170,12 +170,12 @@ WorkBuddy-Backup/memory/
     └── sync_manifest.json ← 同步状态清单
 ```
 
-**各空间使用规则：**
+**各空间使用规则（绝对优先级：本地 > GitHub，GitHub 只能补充不能覆盖）：**
 
 **新建会话 / 同步记忆时（必须按顺序执行）：**
-1. 读本地 `.workbuddy/memory/MEMORY.md` + 当日/近日志（最先）
+1. 读本地 `.workbuddy/memory/MEMORY.md` + 当日/近日志（最先，本地为权威）
 2. git pull 或 clone GitHub 全局记忆（Alfie-deng/WorkBuddy-Backup，memory/ 目录）
-3. 对比本地与 GitHub `memory/MEMORY.md`，用 GitHub 版补全跨空间硬信息
-4. 如需最新动态，读 IMA 笔记 doc_id `7446236407799737`
+3. **对比并合并**（重要）：本地与 GitHub 版对比，用 GitHub 版**补全**跨空间硬信息，**绝不覆盖**本地已有内容
+4. 如需最新动态，读 IMA 笔记 doc_id `7446236407799737`（仅作补充）
 
-**对话结束时：** 本地写 `.workbuddy/memory/YYYY-MM-DD.md`，定期 push 到 GitHub `memory/spaces/{space}/`
+**对话结束时：** 本地写 `.workbuddy/memory/YYYY-MM-DD.md`，定期（手动）push 到 GitHub
