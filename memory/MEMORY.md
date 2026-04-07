@@ -171,6 +171,11 @@ WorkBuddy-Backup/memory/
 ```
 
 **各空间使用规则：**
-1. 对话结束时：本地写 `.workbuddy/memory/YYYY-MM-DD.md`
-2. 定期（手动）：将本地记忆 push 到 GitHub `memory/spaces/{space}/`
-3. 顶层 `MEMORY.md` 由主空间（WorkBuddy Claw 或当前空间）维护，各空间 pull 后参考
+
+**新建会话 / 同步记忆时（必须按顺序执行）：**
+1. 读本地 `.workbuddy/memory/MEMORY.md` + 当日/近日志（最先）
+2. git pull 或 clone GitHub 全局记忆（Alfie-deng/WorkBuddy-Backup，memory/ 目录）
+3. 对比本地与 GitHub `memory/MEMORY.md`，用 GitHub 版补全跨空间硬信息
+4. 如需最新动态，读 IMA 笔记 doc_id `7446236407799737`
+
+**对话结束时：** 本地写 `.workbuddy/memory/YYYY-MM-DD.md`，定期 push 到 GitHub `memory/spaces/{space}/`
