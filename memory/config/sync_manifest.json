@@ -1,0 +1,22 @@
+{
+  "version": "1.0",
+  "description": "跨空间记忆同步清单",
+  "spaces": {
+    "workbuddy_20260407165658": {
+      "last_sync": null,
+      "last_commit": null
+    },
+    "openclaw": {
+      "last_sync": null,
+      "last_commit": null
+    }
+  },
+  "sync_rule": {
+    "daily_append": true,
+    "memory_merge_strategy": "space_label"
+  },
+  "format": {
+    "MEMORY.md": "空间标签合并，同一事项多空间标注，保留最新",
+    "daily/*.md": "纯追加，不覆盖，每日一篇"
+  }
+}
