@@ -10,7 +10,7 @@
 - **使用地点**：工作日放公司，周末放家里
 
 ### 家里 PC（Win11）
-- **处理器**：Intel i5 13代
+- **处理器**：Intel i5-12490F（第12代，6核12线程，非13代）
 - **内存**：32GB
 - **显卡**：RTX 4070（12GB 显存）
 - **使用场景**：周末在家时使用
@@ -202,7 +202,7 @@ Mac → EasyTier → PC(10.10.10.20:8188)
 ### Mac端生图脚本
 - 路径：`~/.workbuddy/skills/comfyui-client/flux_schnell.py`
 - 使用方法：`cd ~/.workbuddy/skills/comfyui-client && source .venv/bin/activate && python3 flux_schnell.py "提示词"`
-- 输出目录：`~/Desktop/AI_生图/`
+- 输出目录：`~/Desktop/AI生图/`（无下划线）
 - 参数：`-w` 宽度 `-t` 高度 `-s` 步数 `-c` 中文提示词
 
 ### Flux Schnell 工作流参数
@@ -218,23 +218,25 @@ Mac → EasyTier → PC(10.10.10.20:8188)
 - **模型**: `z_image_turbo_bf16.safetensors` (11.5GB) - diffusion_models/
 - **文本编码器**: `qwen_3_4b.safetensors` (7.5GB) - 主模型目录
 - **VAE**: `ae.safetensors` - vae/
-- **CLIP类型**: lumina2（不是qwen_image）
+- **CLIP类型**: qwen_image（不是 lumina2）
 - **shift**: 3.0
 - **步数**: 8步
 - **negative**: 复用positive节点 ['5', 0]
 
-**工作流节点链：**
+**工作流节点链（已实测正确）：**
 ```
-UNETLoader → CLIPLoader(lumina2) → VAELoader → EmptyLatentImage
+UNETLoader → CLIPLoader(type=qwen_image) → VAELoader → EmptyLatentImage
         ↓
-TextEncodeZImageOmni
+CLIPTextEncode（不是 TextEncodeZImageOmni）
         ↓
 ModelSamplingAuraFlow (shift=3)
         ↓
-KSampler (euler, 8步, cfg=1)
+KSampler (euler, 8步, cfg=1, scheduler=sgm_uniform)
         ↓
 VAEDecode → SaveImage
 ```
+
+⚠️ scheduler 必须设为 sgm_uniform，不是 normal。
 
 **Mac端脚本：** `~/.workbuddy/skills/comfyui-client/z_turbo.py`
 **备用路径：** `/Users/alfie/WorkBuddy/Claw/z_turbo.py`（项目目录）
@@ -257,4 +259,28 @@ python3 image_process.py <图片> --crop 16:9   # 裁剪到16:9
 ### 已安装技能
 - **text-to-image-prompt-optimizer**：AI生图提示词优化，路径 `~/.workbuddy/skills/text-to-image-prompt-optimizer/`
 - **comfyui-client**：PC生图服务器客户端，路径 `~/.workbuddy/skills/comfyui-client/`
+
+---
+
+## iMessage / OpenClaw 通道配置 [All]
+
+- **Mac iMessage**：jetdeng@126.com
+- **allowFrom**：jetdeng@126.com
+- **MiniMax reasoning**：false（已关闭）
+
+---
+
+## AI生图路径强制规则 [All]
+
+⚠️ **必须强制走 skill 脚本**，不得直接调用 ComfyUI API：
+- ComfyUI 直接 API 调用 → 图片在 PC 本地
+- skill 脚本（flux_schnell.py / z_turbo.py）→ 图片在 `~/Desktop/AI生图/`
+- OpenClaw 内置调用 → 图片在 `~/.openclaw/workspace/`（错误）
+- 回复图片路径时，必须是 `~/Desktop/AI生图/` 格式
+
+---
+
+## 重要系统规则 [All]
+
+**AI可直接操作终端**：执行命令、读写文件等常规操作均已授权，无需用户手动确认（高风险删除操作除外）。
 
