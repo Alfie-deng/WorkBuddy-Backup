@@ -1,22 +1,37 @@
 {
-  "version": "1.0",
+  "version": "1.1",
   "description": "跨空间记忆同步清单",
+  "last_updated": "2026-04-07T17:49",
   "spaces": {
-    "workbuddy_20260407165658": {
-      "last_sync": null,
-      "last_commit": null
+    "workbuddy_current": {
+      "path": "spaces/workbuddy_current",
+      "local": "/Users/alfie/WorkBuddy/20260407165658/.workbuddy/memory",
+      "description": "当前WorkBuddy空间（20260407165658）",
+      "last_sync": null
     },
-    "openclaw": {
-      "last_sync": null,
-      "last_commit": null
+    "workbuddy_claw": {
+      "path": "spaces/workbuddy_claw",
+      "local": "/Users/alfie/WorkBuddy/Claw/.workbuddy/memory",
+      "description": "WorkBuddy Claw空间（主要工作空间，含PC生图配置）",
+      "last_sync": null
+    },
+    "openclaw_workspace": {
+      "path": "spaces/openclaw_workspace",
+      "local": "/Users/alfie/.openclaw/workspace/memory",
+      "description": "OpenClaw工作区记忆",
+      "last_sync": null
+    },
+    "openclaw_main": {
+      "path": "spaces/openclaw_main",
+      "local": "/Users/alfie/.openclaw/memory/main.sqlite",
+      "description": "OpenClaw主记忆（SQLite，建议定期导出为文本）",
+      "last_sync": null
     }
   },
   "sync_rule": {
-    "daily_append": true,
-    "memory_merge_strategy": "space_label"
+    "daily": "各空间append到 spaces/{space}/daily/YYYY-MM-DD.md，不合并",
+    "memory": "长期记忆整合到顶层 MEMORY.md，各空间独特内容保留在 spaces/{space}/MEMORY.md",
+    "conflict": "同一事项多空间记录时，保留各空间视角，顶部标注 [来源]"
   },
-  "format": {
-    "MEMORY.md": "空间标签合并，同一事项多空间标注，保留最新",
-    "daily/*.md": "纯追加，不覆盖，每日一篇"
-  }
+  "gitignore_note": "所有空间 token/凭证不进入仓库，用占位符代替"
 }
